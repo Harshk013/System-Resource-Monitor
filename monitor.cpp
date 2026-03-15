@@ -8,8 +8,7 @@ using namespace std;
 using ll = long long;
 
 
-void bar(double percent)
-{
+void bar(double percent){
     int width = 20;
     int filled = percent * width / 100;
 
@@ -22,12 +21,11 @@ void bar(double percent)
 }
 
 
-bool isNumber(string s)
-{
-    for(char c : s)
-    {
-        if(!isdigit(c))
+bool isNumber(string s){
+    for(char c : s){
+        if(!isdigit(c)){
             return false;
+        }
     }
 
     return true;
@@ -51,37 +49,34 @@ void usage(ll &user1,ll &nice1,ll &system1,ll &idle1,
            ll &user2,ll &nice2,ll &system2,ll &idle2){
 
 	ll total1 = user1 + nice1 + system1 + idle1;
-        ll total2 = user2 + nice2 + system2 + idle2;
+    ll total2 = user2 + nice2 + system2 + idle2;
 
-        ll totalDiff = total2 - total1;
-        ll idleDiff = idle2 - idle1;
+    ll totalDiff = total2 - total1;
+    ll idleDiff = idle2 - idle1;
 
-        double cpuUsage =
-            (double)(totalDiff - idleDiff) / totalDiff * 100;
+    double cpuUsage = (double)(totalDiff - idleDiff) / totalDiff * 100;
 
-        system("clear");
+    system("clear");
 
-        cout << "==================================================" << endl;
-        cout << "                SYSTEM RESOURCE MONITOR           " << endl;
-        cout << "==================================================" << endl;
-        cout << endl;
+    cout << "==================================================" << endl;
+    cout << "                SYSTEM RESOURCE MONITOR           " << endl;
+    cout << "==================================================" << endl;
+    cout << endl;
 
-        cout << "CPU Usage : ";
-	bar(cpuUsage);
-        cout << " " << cpuUsage << " %" << endl;
-	cout << endl;
+    cout << "CPU Usage : ";
+    bar(cpuUsage);
+    cout << " " << cpuUsage << " %" << endl;
+    cout << endl;
 }
 
-void memory(ll &totalMem,ll &availableMem)
-{
+void memory(ll &totalMem,ll &availableMem){
     ifstream file("/proc/meminfo");
 
     string key;
     ll value;
     string unit;
 
-    while(file >> key >> value >> unit)
-    {
+    while(file >> key >> value >> unit){
         if(key == "MemTotal:")
             totalMem = value;
 
@@ -128,12 +123,10 @@ void pid(){
     cout << "PID        NAME                MEMORY" << endl;
     cout << "----------------------------------------------" << endl;
 
-    while((entry = readdir(dir)) != NULL)
-    {
+    while((entry = readdir(dir)) != NULL){
         string pid = entry->d_name;
 
-        if(isNumber(pid))
-        {
+        if(isNumber(pid)){
             string path = "/proc/" + pid + "/status";
 
             ifstream file(path);
@@ -142,15 +135,12 @@ void pid(){
             string name = "";
             string memory = "0 MB";
 
-            while(getline(file, line))
-            {
-                if(line.substr(0,5) == "Name:")
-                {
+            while(getline(file, line)){
+                if(line.substr(0,5) == "Name:"){
                     name = line.substr(6);
                 }
 
-                if(line.substr(0,6) == "VmRSS:")
-                {
+                if(line.substr(0,6) == "VmRSS:"){
                     stringstream ss(line);
                     string key, unit;
                     ll mem;
@@ -162,8 +152,7 @@ void pid(){
                 }
             }
 
-            if(name != "")
-            {
+            if(name != ""){
                 cout << pid;
 
                 if(pid.length() < 10) cout << string(10 - pid.length(), ' ');
@@ -185,7 +174,7 @@ int main(){
     while(true){
         ll user1, nice1, system1, idle1;
         ll user2, nice2, system2, idle2;
-	ll totalMem, availableMem;
+	    ll totalMem, availableMem;
 
         readCPU(user1, nice1, system1, idle1);
 
@@ -193,12 +182,11 @@ int main(){
 
         readCPU(user2, nice2, system2, idle2);
 
-	usage(user1,nice1,system1,idle1,user2,nice2,system2,idle2);
+	    usage(user1,nice1,system1,idle1,user2,nice2,system2,idle2);
 
-	memory(totalMem,availableMem);
+	    memory(totalMem,availableMem);
 
-	pid();
+	    pid();
     }
-
     return 0;
 }
