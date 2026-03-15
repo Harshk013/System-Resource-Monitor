@@ -36,7 +36,7 @@ The emphasis of the task is on:
 ---
 
 # Screenshots
-
+```
 ==========================================================
                  SYSTEM RESOURCE MONITOR
 ==========================================================
@@ -79,6 +79,7 @@ PID        NAME                MEMORY
 360        (sd-pam)            3.433594 MB
 371        bash                4.875000 MB
 391        monitor             3.625000 MB
+```
 
 
 # How It Works
